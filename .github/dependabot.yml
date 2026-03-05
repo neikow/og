@@ -1,0 +1,58 @@
+version: 2
+
+updates:
+  # npm — root workspace (covers all workspaces: apps/api, apps/web, packages/shared)
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: UTC
+    open-pull-requests-limit: 10
+    groups:
+      # Group all non-major production dependency updates together
+      production-minor-patch:
+        patterns: ["*"]
+        update-types:
+          - minor
+          - patch
+        exclude-patterns:
+          - "@types/*"
+      # Group all dev/type dependency updates
+      dev-dependencies:
+        patterns:
+          - "@types/*"
+          - "vitest"
+          - "@testing-library/*"
+          - "eslint*"
+          - "@eslint*"
+          - "typescript"
+          - "vite"
+          - "@vitejs/*"
+          - "turbo"
+          - "tsx"
+          - "drizzle-kit"
+    ignore:
+      # Major version bumps require manual review
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    labels:
+      - dependencies
+    commit-message:
+      prefix: "chore(deps)"
+
+  # GitHub Actions
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: UTC
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - ci
+    commit-message:
+      prefix: "chore(ci)"

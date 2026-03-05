@@ -1,0 +1,47 @@
+{
+  "name": "@og/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.build.json",
+    "start": "node dist/index.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx src/db/migrate.ts",
+    "postinstall": "npm rebuild better-sqlite3",
+    "lint": "eslint src --ext ts,tsx",
+    "lint:fix": "eslint src --ext ts,tsx --fix"
+  },
+  "dependencies": {
+    "@hono/node-server": "1.19.11",
+    "@og/shared": "*",
+    "@resvg/resvg-js": "2.6.2",
+    "arctic": "2.3.4",
+    "better-sqlite3": "11.10.0",
+    "dotenv": "17.3.1",
+    "drizzle-orm": "0.38.4",
+    "hono": "4.12.5",
+    "lru-cache": "11.2.6",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "satori": "0.25.0",
+    "sucrase": "3.35.1",
+    "tailwindcss": "4.2.1"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "7.6.13",
+    "@types/node": "22.19.13",
+    "@types/react": "18.3.28",
+    "@types/react-dom": "18.3.7",
+    "@vitest/coverage-v8": "2.1.9",
+    "drizzle-kit": "0.31.9",
+    "tsx": "4.21.0",
+    "typescript": "5.9.3",
+    "vitest": "2.1.9"
+  }
+}

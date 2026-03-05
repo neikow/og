@@ -1,0 +1,38 @@
+# Version control
+.git
+.gitignore
+
+# Node modules (installed fresh in Docker)
+node_modules
+**/node_modules
+
+# Build outputs
+apps/api/dist
+apps/web/dist
+
+# Local env files
+.env
+.env.*
+
+# Turbo cache
+.turbo
+
+# Test artifacts
+coverage
+**/.vitest
+
+# Editor / OS
+.vscode
+.idea
+*.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# GitHub Actions (not needed inside image)
+.github
+
+# Docs / misc
+*.md
