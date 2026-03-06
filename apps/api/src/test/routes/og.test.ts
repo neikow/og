@@ -27,7 +27,11 @@ describe('gET /og/:uuid', () => {
 
     // Mock API key middleware — always passes
     app.use('*', async (c, next) => {
-      c.set('apiKeyId', 'test-key-id')
+      c.set(
+        // @ts-expect-error - we just want to set something so the route handler doesn't fail
+        'apiKeyId',
+        'test-key-id',
+      )
       await next()
     })
 

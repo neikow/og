@@ -65,6 +65,7 @@ describe('middleware: session', () => {
         return c.json({ error: 'Unauthorized' }, 401)
       }
 
+      // @ts-expect-error - we just want to test that the session ID is set in the context
       c.set('sessionId', sessionId)
       await next()
     })
