@@ -2,9 +2,8 @@ import type { Font } from '@og/shared'
 import { fireEvent, screen, waitFor } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { FontSelector } from '../../../components/editor/FontSelector'
-import { renderWithProviders } from '../../setup'
-
 import { fontsApi } from '../../../lib/api'
+import { renderWithProviders } from '../../setup'
 
 vi.mock('../../../lib/api', () => ({
   fontsApi: {

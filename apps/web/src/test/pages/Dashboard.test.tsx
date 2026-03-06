@@ -2,9 +2,8 @@ import { fireEvent, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { auth, templatesApi } from '../../lib/api'
-import { renderWithProviders } from '../setup'
-
 import { Dashboard } from '../../pages/Dashboard'
+import { renderWithProviders } from '../setup'
 
 vi.mock('../../lib/api', () => ({
   templatesApi: {

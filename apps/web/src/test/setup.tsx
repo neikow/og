@@ -1,8 +1,8 @@
 import type { RenderOptions } from '@testing-library/react'
 import type { ReactElement } from 'react'
-import '@testing-library/jest-dom'
 import { render } from '@testing-library/react'
 import { ToastProvider } from '../providers/toastProvider'
+import '@testing-library/jest-dom'
 
 /**
  * Render a component wrapped in all app-level providers.

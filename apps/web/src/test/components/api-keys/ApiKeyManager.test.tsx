@@ -1,9 +1,8 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { ApiKeyManager } from '../../../components/api-keys/ApiKeyManager'
-import { renderWithProviders } from '../../setup'
-
 import { apiKeysApi } from '../../../lib/api'
+import { renderWithProviders } from '../../setup'
 
 vi.mock('../../../lib/api', () => ({
   apiKeysApi: {

@@ -1,11 +1,10 @@
+import type { OGVariableType } from '@og/shared'
 import { fireEvent, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import type { OGVariableType } from '@og/shared'
 import { assetsApi, fontsApi, previewApi, templatesApi } from '../../lib/api'
-import { renderWithProviders } from '../setup'
-
 import { Editor } from '../../pages/Editor'
+import { renderWithProviders } from '../setup'
 
 vi.mock('../../lib/api', () => ({
   templatesApi: {
