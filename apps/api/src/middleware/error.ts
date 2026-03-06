@@ -1,5 +1,5 @@
 import type { Context, Next } from 'hono'
-import { env } from '../env'
+import { env } from '../env.js'
 
 export async function errorMiddleware(c: Context, next: Next) {
   try {

@@ -13,6 +13,9 @@ apps/api/data/
 .env.local
 .env.*.local
 
+# docker-compose.yml is a local copy of docker-compose.example.yml
+docker-compose.yml
+
 # Turbo cache
 .turbo/
 

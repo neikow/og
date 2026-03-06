@@ -1,14 +1,14 @@
 import type { PreviewInput } from '@og/shared'
 import { inArray } from 'drizzle-orm'
 import { Hono } from 'hono'
-import { db } from '../db/client'
-import { fonts } from '../db/schema'
-import { sessionMiddleware } from '../middleware/session'
-import { buildGallery } from '../services/gallery'
-import { loadFontData, renderToPng } from '../services/render'
-import { buildClassStyleMap, extractClassNames } from '../services/tailwind'
-import { elementToHtml, TranspileError, transpileTemplate } from '../services/transpile'
-import { validateAndCoerceVariables, VariableValidationError } from '../services/variables'
+import { db } from '../db/client.js'
+import { fonts } from '../db/schema.js'
+import { sessionMiddleware } from '../middleware/session.js'
+import { buildGallery } from '../services/gallery.js'
+import { loadFontData, renderToPng } from '../services/render.js'
+import { buildClassStyleMap, extractClassNames } from '../services/tailwind.js'
+import { elementToHtml, TranspileError, transpileTemplate } from '../services/transpile.js'
+import { validateAndCoerceVariables, VariableValidationError } from '../services/variables.js'
 
 export const previewRouter = new Hono()
 

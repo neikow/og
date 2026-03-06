@@ -2,9 +2,9 @@ import type { CreateApiKeyInput } from '@og/shared'
 import { createHash, randomBytes, randomUUID } from 'node:crypto'
 import { eq } from 'drizzle-orm'
 import { Hono } from 'hono'
-import { db } from '../db/client'
-import { apiKeys } from '../db/schema'
-import { sessionMiddleware } from '../middleware/session'
+import { db } from '../db/client.js'
+import { apiKeys } from '../db/schema.js'
+import { sessionMiddleware } from '../middleware/session.js'
 
 export const apiKeysRouter = new Hono()
 

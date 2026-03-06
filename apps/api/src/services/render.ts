@@ -2,7 +2,7 @@ import type { Font } from '@og/shared'
 import { readFileSync } from 'node:fs'
 import { Resvg } from '@resvg/resvg-js'
 import satori from 'satori'
-import { preloadImages } from './imagePreload'
+import { preloadImages } from './imagePreload.js'
 
 export interface FontData {
   font: Font

@@ -1,8 +1,8 @@
 import type { Context, Next } from 'hono'
 import { createHash } from 'node:crypto'
 import { eq } from 'drizzle-orm'
-import { db } from '../db/client'
-import { apiKeys } from '../db/schema'
+import { db } from '../db/client.js'
+import { apiKeys } from '../db/schema.js'
 
 export async function apiKeyMiddleware(c: Context, next: Next) {
   const authHeader = c.req.header('Authorization')

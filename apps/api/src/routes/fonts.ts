@@ -2,9 +2,9 @@ import type { AddHostedFontInput } from '@og/shared'
 import { randomUUID } from 'node:crypto'
 import { eq } from 'drizzle-orm'
 import { Hono } from 'hono'
-import { db } from '../db/client'
-import { fonts, templateFonts } from '../db/schema'
-import { sessionMiddleware } from '../middleware/session'
+import { db } from '../db/client.js'
+import { fonts, templateFonts } from '../db/schema.js'
+import { sessionMiddleware } from '../middleware/session.js'
 import {
   deleteFontFile,
   downloadFontFile,
@@ -12,7 +12,7 @@ import {
   FontError,
   saveFontFile,
   validateFontExtension,
-} from '../services/fonts'
+} from '../services/fonts.js'
 
 export const fontsRouter = new Hono()
 

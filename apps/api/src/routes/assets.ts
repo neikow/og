@@ -4,10 +4,10 @@ import { mkdirSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs'
 import { extname, join } from 'node:path'
 import { eq } from 'drizzle-orm'
 import { Hono } from 'hono'
-import { db } from '../db/client'
-import { assets } from '../db/schema'
-import { env } from '../env'
-import { sessionMiddleware } from '../middleware/session'
+import { db } from '../db/client.js'
+import { assets } from '../db/schema.js'
+import { env } from '../env.js'
+import { sessionMiddleware } from '../middleware/session.js'
 
 const IDENTIFIER_REGEX = /^[a-z_]\w*$/i
 

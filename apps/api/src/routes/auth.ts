@@ -3,10 +3,10 @@ import { generateState, GitHub, OAuth2RequestError } from 'arctic'
 import { eq } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { deleteCookie, getCookie, setCookie } from 'hono/cookie'
-import { db } from '../db/client'
-import { sessions } from '../db/schema'
-import { env } from '../env'
-import { sessionMiddleware } from '../middleware/session'
+import { db } from '../db/client.js'
+import { sessions } from '../db/schema.js'
+import { env } from '../env.js'
+import { sessionMiddleware } from '../middleware/session.js'
 
 // Arctic v2 GitHub OAuth provider
 const github = new GitHub(

@@ -48,23 +48,12 @@ Then open `http://localhost:3000`.
 
 ### Docker Compose
 
-```yaml
-services:
-  og:
-    image: ghcr.io/neikow/og:latest
-    ports:
-      - "3000:3000"
-    volumes:
-      - og-data:/app/data
-    environment:
-      GITHUB_CLIENT_ID: your_client_id
-      GITHUB_CLIENT_SECRET: your_client_secret
-      ALLOWED_EMAILS: you@example.com
-      SESSION_SECRET: a_long_random_secret
-      # FRONTEND_URL: https://og.yourdomain.com  # set in production
+A fully annotated example is provided in [`docker-compose.example.yml`](docker-compose.example.yml).
 
-volumes:
-  og-data:
+```bash
+cp docker-compose.example.yml docker-compose.yml
+# edit docker-compose.yml and fill in the required environment variables
+docker compose up -d
 ```
 
 ## Configuration

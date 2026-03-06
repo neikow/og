@@ -2,19 +2,19 @@ import type { CreateTemplateInput, OGVariable, UpdateTemplateInput } from '@og/s
 import { randomUUID } from 'node:crypto'
 import { eq, like } from 'drizzle-orm'
 import { Hono } from 'hono'
-import { db } from '../db/client'
-import { fonts, templateFonts, templates } from '../db/schema'
-import { sessionMiddleware } from '../middleware/session'
+import { db } from '../db/client.js'
+import { fonts, templateFonts, templates } from '../db/schema.js'
+import { sessionMiddleware } from '../middleware/session.js'
 import {
   buildCacheKey,
   cacheGet,
   cacheSetWithIndex,
   invalidateTemplate,
-} from '../services/cache'
-import { buildGallery } from '../services/gallery'
-import { loadFontData, renderToPng } from '../services/render'
-import { buildClassStyleMap, extractClassNames } from '../services/tailwind'
-import { TranspileError, transpileTemplate } from '../services/transpile'
+} from '../services/cache.js'
+import { buildGallery } from '../services/gallery.js'
+import { loadFontData, renderToPng } from '../services/render.js'
+import { buildClassStyleMap, extractClassNames } from '../services/tailwind.js'
+import { TranspileError, transpileTemplate } from '../services/transpile.js'
 
 export const templatesRouter = new Hono()
 

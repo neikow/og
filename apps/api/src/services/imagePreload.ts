@@ -1,5 +1,5 @@
 import { Children, createElement, isValidElement } from 'react'
-import { resolveImageUrl } from './imageCache'
+import { resolveImageUrl } from './imageCache.js'
 
 // Matches url("..."), url('...'), or url(...) and captures the inner URL.
 // Uses explicit alternation for quoted/unquoted forms to avoid backtracking.

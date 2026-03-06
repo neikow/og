@@ -1,19 +1,19 @@
 import type { OGVariable } from '@og/shared'
 import { eq } from 'drizzle-orm'
 import { Hono } from 'hono'
-import { db } from '../db/client'
-import { fonts, templateFonts, templates } from '../db/schema'
-import { apiKeyMiddleware } from '../middleware/api-key'
+import { db } from '../db/client.js'
+import { fonts, templateFonts, templates } from '../db/schema.js'
+import { apiKeyMiddleware } from '../middleware/api-key.js'
 import {
   buildCacheKey,
   cacheGet,
   cacheSetWithIndex,
-} from '../services/cache'
-import { buildGallery } from '../services/gallery'
-import { loadFontData, renderToPng } from '../services/render'
-import { buildClassStyleMap, extractClassNames } from '../services/tailwind'
-import { TranspileError, transpileTemplate } from '../services/transpile'
-import { validateAndCoerceVariables, VariableValidationError } from '../services/variables'
+} from '../services/cache.js'
+import { buildGallery } from '../services/gallery.js'
+import { loadFontData, renderToPng } from '../services/render.js'
+import { buildClassStyleMap, extractClassNames } from '../services/tailwind.js'
+import { TranspileError, transpileTemplate } from '../services/transpile.js'
+import { validateAndCoerceVariables, VariableValidationError } from '../services/variables.js'
 
 export const ogRouter = new Hono()
 

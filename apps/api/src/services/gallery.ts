@@ -1,6 +1,6 @@
-import { db } from '../db/client'
-import { assets } from '../db/schema'
-import { env } from '../env'
+import { db } from '../db/client.js'
+import { assets } from '../db/schema.js'
+import { env } from '../env.js'
 
 /**
  * Build the `Gallery` object that is injected into every template render.

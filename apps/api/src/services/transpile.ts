@@ -1,4 +1,4 @@
-import type { ClassStyleMap } from './tailwind'
+import type { ClassStyleMap } from './tailwind.js'
 import { createRequire } from 'node:module'
 import { Children, createElement, isValidElement } from 'react'
 import { transform } from 'sucrase'

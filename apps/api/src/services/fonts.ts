@@ -1,7 +1,7 @@
 import type { ContentfulStatusCode } from 'hono/utils/http-status'
 import { mkdirSync, unlinkSync, writeFileSync } from 'node:fs'
 import { extname, join } from 'node:path'
-import { env } from '../env'
+import { env } from '../env.js'
 
 export type SupportedFontExt = '.ttf' | '.otf' | '.woff'
 const SUPPORTED_EXTENSIONS: SupportedFontExt[] = ['.ttf', '.otf', '.woff']

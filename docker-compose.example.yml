@@ -1,0 +1,50 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
+
+# Copy this file to docker-compose.yml and fill in the required environment
+# variables, or point the env_file key at your own .env file.
+#
+# Required before first run:
+#   1. Create a GitHub OAuth App:
+#      - Homepage URL:            https://og.yourdomain.com
+#      - Authorization callback:  https://og.yourdomain.com/auth/callback
+#   2. Fill in GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, ALLOWED_EMAILS,
+#      SESSION_SECRET, and FRONTEND_URL below (or in an .env file).
+
+services:
+  og:
+    image: ghcr.io/neikow/og:latest
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - og-data:/app/data
+    environment:
+      # ── Required ────────────────────────────────────────────────────────────
+      GITHUB_CLIENT_ID: "${GITHUB_CLIENT_ID}"
+      GITHUB_CLIENT_SECRET: "${GITHUB_CLIENT_SECRET}"
+      # Comma-separated list of GitHub email addresses allowed to log in
+      ALLOWED_EMAILS: "${ALLOWED_EMAILS}"
+      # Random string ≥ 32 characters — generate with:
+      #   node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+      SESSION_SECRET: "${SESSION_SECRET}"
+
+      # ── Required in production ───────────────────────────────────────────────
+      # Public URL of this service (used as OAuth redirect base and CORS origin)
+      FRONTEND_URL: "${FRONTEND_URL:-http://localhost:3000}"
+
+      # ── Optional (defaults shown) ────────────────────────────────────────────
+      NODE_ENV: "production"
+      PORT: "3000"
+      DATABASE_URL: "/app/data/og.db"
+      FONT_DIR: "/app/data/fonts"
+      ASSET_DIR: "/app/data/assets"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/health').then(r => process.exit(r.ok ? 0 : 1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  og-data:
+    driver: local

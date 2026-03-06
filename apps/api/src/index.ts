@@ -4,15 +4,19 @@ import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { etag } from 'hono/etag'
 import { logger } from 'hono/logger'
-import { env } from './env'
-import { errorMiddleware } from './middleware/error'
-import { apiKeysRouter } from './routes/api-keys'
-import { assetsRouter } from './routes/assets'
-import { authRouter } from './routes/auth'
-import { fontsRouter } from './routes/fonts'
-import { ogRouter } from './routes/og'
-import { previewRouter } from './routes/preview'
-import { templatesRouter } from './routes/templates'
+import { runMigrations } from './db/migrate.js'
+import { env } from './env.js'
+import { errorMiddleware } from './middleware/error.js'
+import { apiKeysRouter } from './routes/api-keys.js'
+import { assetsRouter } from './routes/assets.js'
+import { authRouter } from './routes/auth.js'
+import { fontsRouter } from './routes/fonts.js'
+import { ogRouter } from './routes/og.js'
+import { previewRouter } from './routes/preview.js'
+import { templatesRouter } from './routes/templates.js'
+
+// Run database migrations before accepting any requests
+runMigrations()
 
 const app = new Hono()
 
