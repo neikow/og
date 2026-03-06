@@ -1,5 +1,6 @@
 {
   "name": "og",
+  "version": "0.0.0",
   "private": true,
   "license": "AGPL-3.0-only",
   "workspaces": [
@@ -67,6 +68,5 @@
     "@esbuild/win32-arm64": "0.27.3",
     "@esbuild/win32-ia32": "0.27.3",
     "@esbuild/win32-x64": "0.27.3"
-  },
-  "version": "0.0.2"
+  }
 }
