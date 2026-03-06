@@ -123,15 +123,70 @@ og/
 
 ### Branching
 
-| Branch         | Purpose                                                                 |
-|----------------|-------------------------------------------------------------------------|
-| `main`         | Stable, releasable code. Direct commits are not allowed.                |
-| `develop`      | Integration branch. Merges here trigger a `develop` Docker image build. |
-| `feat/<name>`  | New features                                                            |
-| `fix/<name>`   | Bug fixes                                                               |
-| `chore/<name>` | Tooling, dependency updates, refactoring                                |
+This project follows [Gitflow](https://nvie.com/posts/a-successful-git-branching-model/).
 
-Branch from `develop` for all new work, then open a PR back to `develop`.
+| Branch | Purpose | Branches from | Merges into |
+|---|---|---|---|
+| `main` | Production-ready code. Every commit on this branch is a release. Direct pushes are not allowed. | — | — |
+| `develop` | Integration branch. All finished work lands here. Merges here trigger a `develop` Docker image build. | `main` | `main` (at release time) |
+| `feat/<name>` | New features | `develop` | `develop` |
+| `fix/<name>` | Non-urgent bug fixes | `develop` | `develop` |
+| `chore/<name>` | Tooling, dependency updates, refactoring | `develop` | `develop` |
+| `release/<version>` | Stabilisation before a release (e.g. `release/1.2.0`). Only bugfixes — no new features. | `develop` | `main` + `develop` |
+| `hotfix/<name>` | Emergency fix for a production bug. | `main` | `main` + `develop` |
+
+#### Feature / fix / chore branches
+
+Branch from `develop`, do your work, then open a PR back to `develop`.
+
+```bash
+git checkout develop && git pull
+git checkout -b feat/my-feature
+# ... work ...
+git push -u origin feat/my-feature
+# open PR → develop
+```
+
+#### Release branches
+
+When `develop` is ready to ship, cut a `release/<version>` branch for final stabilisation:
+
+```bash
+git checkout develop && git pull
+git checkout -b release/1.2.0
+# Only bugfixes from here — no new features
+# Bump version if needed, update CHANGELOG draft
+git push -u origin release/1.2.0
+```
+
+Once stable, merge into `main` (triggers the Docker image build), tag it (triggers the versioned release), then merge back into `develop` to bring in any stabilisation fixes:
+
+```bash
+# Merge into main (via PR or locally)
+git checkout main && git merge --no-ff release/1.2.0
+npm run release        # bumps version, tags, creates GitHub Release
+# Merge back into develop
+git checkout develop && git merge --no-ff release/1.2.0
+git branch -d release/1.2.0
+```
+
+#### Hotfix branches
+
+For urgent production bugs, branch directly from `main`:
+
+```bash
+git checkout main && git pull
+git checkout -b hotfix/fix-render-crash
+# ... fix ...
+git push -u origin hotfix/fix-render-crash
+```
+
+Open **two** PRs: one targeting `main`, one targeting `develop`. Both must be merged so the fix is not lost when `develop` is next released. After the `main` PR merges, tag it and run the release:
+
+```bash
+git checkout main && git pull
+npm run release
+```
 
 ### Commit Messages
 
