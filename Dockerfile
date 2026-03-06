@@ -10,7 +10,7 @@ COPY packages/shared/package.json ./packages/shared/
 
 # Install all deps (including devDeps needed for build)
 # --ignore-scripts so postinstall (native rebuild) runs after we have build tools
-RUN npm i --ignore-scripts
+RUN npm ci --ignore-scripts
 
 # Rebuild native modules for the current platform
 RUN npm rebuild better-sqlite3
