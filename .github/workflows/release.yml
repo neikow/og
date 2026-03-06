@@ -6,6 +6,7 @@ on:
       - "v*.*.*"
     branches:
       - develop
+      - release/**
 
 jobs:
   release:
@@ -41,6 +42,7 @@ jobs:
             type=semver,pattern={{version}}
             type=raw,value=latest,enable=${{ github.ref_type == 'tag' }}
             type=raw,value=develop,enable=${{ github.ref == 'refs/heads/develop' }}
+            type=ref,event=branch,enable=${{ startsWith(github.ref, 'refs/heads/release/') }}
 
       - name: Build and push
         uses: docker/build-push-action@v6

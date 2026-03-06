@@ -4,6 +4,7 @@ updates:
   # npm — root workspace (covers all workspaces: apps/api, apps/web, packages/shared)
   - package-ecosystem: npm
     directory: /
+    target-branch: develop
     schedule:
       interval: weekly
       day: monday
@@ -45,6 +46,7 @@ updates:
   # GitHub Actions
   - package-ecosystem: github-actions
     directory: /
+    target-branch: develop
     schedule:
       interval: weekly
       day: monday
