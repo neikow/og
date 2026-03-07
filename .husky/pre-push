@@ -1,0 +1,17 @@
+#!/bin/sh
+echo "Running tests..."
+npm run test || exit 1
+
+echo "Running typecheck..."
+npm run typecheck || exit 1
+
+echo "Running lint:fix..."
+npm run lint:fix
+
+# Stage any files modified by lint:fix and create a new commit so they are
+# included in the push. git diff HEAD catches both staged and unstaged changes.
+if ! git diff HEAD --quiet; then
+  echo "Lint fixed some files – committing changes..."
+  git add -u
+  git commit -m "chore: apply lint fixes" --no-verify
+fi

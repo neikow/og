@@ -1,0 +1,7 @@
+#!/bin/sh
+# Run npm install when switching branches
+# $3 == 1 means branch checkout (not file checkout)
+if [ "$3" = "1" ]; then
+  echo "Branch switched – running npm install..."
+  npm install
+fi
