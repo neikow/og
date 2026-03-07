@@ -188,3 +188,16 @@ export const assetsApi = {
   delete: (id: string) =>
     request<{ ok: true }>(`/assets/${id}`, { method: 'DELETE' }),
 }
+
+// ─── Update check ─────────────────────────────────────────────────────────────
+
+export interface VersionInfo {
+  tag: string
+  sha: string | null
+  updateAvailable: boolean
+  latestSha: string | null
+}
+
+export const updateApi = {
+  check: () => request<VersionInfo>('/health/version'),
+}

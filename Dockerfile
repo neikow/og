@@ -43,6 +43,12 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
+# Build-time args injected by CI (docker/build-push-action --build-arg)
+ARG IMAGE_TAG=dev
+ARG IMAGE_SHA=
+ENV IMAGE_TAG=${IMAGE_TAG}
+ENV IMAGE_SHA=${IMAGE_SHA}
+
 # Copy compiled API
 COPY --from=build-api /app/apps/api/dist ./dist
 

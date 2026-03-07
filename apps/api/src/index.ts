@@ -48,6 +48,61 @@ app.route('/assets', assetsRouter)
 // Health check
 app.get('/health', c => c.json({ ok: true, ts: new Date().toISOString() }))
 
+// Version info — used by the frontend to check for updates.
+// Returns the running image tag/sha and whether a newer `latest` exists on GHCR.
+app.get('/health/version', async (c) => {
+  const GHCR_IMAGE = 'neikow/og'
+  const tag = env.IMAGE_TAG
+  const sha = env.IMAGE_SHA
+
+  // Only check for updates when running a real published image (not local dev)
+  const isPublished = tag !== 'dev' && tag !== ''
+  let updateAvailable = false
+  let latestSha: string | null = null
+
+  if (isPublished && sha) {
+    try {
+      // Fetch the manifest for the `latest` tag via GHCR OCI API (anonymous, public)
+      const manifestRes = await fetch(
+        `https://ghcr.io/v2/${GHCR_IMAGE}/manifests/latest`,
+        {
+          headers: {
+            Accept: [
+              'application/vnd.oci.image.index.v1+json',
+              'application/vnd.oci.image.manifest.v1+json',
+              'application/vnd.docker.distribution.manifest.list.v2+json',
+              'application/vnd.docker.distribution.manifest.v2+json',
+            ].join(','),
+          },
+          signal: AbortSignal.timeout(5000),
+        },
+      )
+
+      if (manifestRes.ok) {
+        const manifest = await manifestRes.json() as {
+          annotations?: Record<string, string>
+          config?: { digest: string }
+        }
+        // OCI image index stores labels in annotations
+        latestSha = manifest.annotations?.['org.opencontainers.image.revision'] ?? null
+        if (latestSha && latestSha !== sha) {
+          updateAvailable = true
+        }
+      }
+    }
+    catch {
+      // Network failure — silently skip update check
+    }
+  }
+
+  return c.json({
+    tag,
+    sha: sha || null,
+    updateAvailable,
+    latestSha,
+  })
+})
+
 // ─── Static file serving (production) ────────────────────────────────────────
 // In production the Vite build is copied to ./public next to the compiled API.
 // All routes not matched above serve the SPA's index.html so client-side

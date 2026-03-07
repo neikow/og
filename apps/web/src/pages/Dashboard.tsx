@@ -5,8 +5,9 @@ import { useNavigate } from 'react-router-dom'
 import { ApiKeyManager } from '../components/api-keys/ApiKeyManager'
 import { GalleryManager } from '../components/assets/GalleryManager'
 import { FontManager } from '../components/fonts/FontManager'
-import { EmptyState, ListCard, SectionHeader, TabBar } from '../components/ui'
+import { EmptyState, ListCard, SectionHeader, TabBar, UpdateBanner } from '../components/ui'
 import { useToast } from '../hooks/useToast'
+import { useUpdateCheck } from '../hooks/useUpdateCheck'
 import { auth, templatesApi } from '../lib/api'
 
 type Tab = 'templates' | 'api-keys' | 'fonts' | 'gallery'
@@ -24,6 +25,7 @@ export function Dashboard() {
   const [bulkDeleting, setBulkDeleting] = useState(false)
   const navigate = useNavigate()
   const { toast } = useToast()
+  const { updateAvailable, versionInfo, dismiss } = useUpdateCheck()
 
   useEffect(() => {
     if (tab === 'templates')
@@ -441,6 +443,9 @@ export function Dashboard() {
       {tab === 'api-keys' && <ApiKeyManager />}
       {tab === 'fonts' && <FontManager />}
       {tab === 'gallery' && <GalleryManager />}
+      {updateAvailable && versionInfo && (
+        <UpdateBanner tag={versionInfo.tag} onDismiss={dismiss} />
+      )}
     </div>
   )
 }

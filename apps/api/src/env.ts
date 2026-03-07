@@ -4,9 +4,13 @@
  */
 import { config } from 'dotenv'
 
-config({
-  path: '../../.env',
-})
+if (process.env.NODE_ENV !== 'production') {
+  // Load .env file in development
+  config({
+    path: '../../.env',
+    quiet: true,
+  })
+}
 
 function requireEnv(key: string): string {
   const val = process.env[key]
@@ -33,6 +37,10 @@ export const env = {
   PORT: Number.parseInt(optionalEnv('PORT', '3000'), 10),
   FRONTEND_URL: optionalEnv('FRONTEND_URL', 'http://localhost:5173'),
   NODE_ENV: optionalEnv('NODE_ENV', 'development'),
+  /** Docker image tag set at build time, e.g. "develop", "release/1.2.0", "v1.2.0" */
+  IMAGE_TAG: optionalEnv('IMAGE_TAG', 'dev'),
+  /** Git commit SHA baked in at Docker build time */
+  IMAGE_SHA: optionalEnv('IMAGE_SHA', ''),
 } as const
 
 export type Env = typeof env
