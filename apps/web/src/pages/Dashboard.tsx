@@ -1,13 +1,14 @@
-import type { Template } from '@og/shared'
-import { Copy, Image, Key, LayoutTemplate, LogOut, Pencil, Plus, Tag, Trash2, Type } from 'lucide-react'
+import type { OGVariable, Template } from '@og/shared'
+import { Copy, Image, Key, LayoutTemplate, LogOut, MoreHorizontal, Pencil, Plus, Tag, Trash2, Type } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ApiKeyManager } from '../components/api-keys/ApiKeyManager'
 import { GalleryManager } from '../components/assets/GalleryManager'
 import { FontManager } from '../components/fonts/FontManager'
-import { EmptyState, ListCard, SectionHeader, TabBar } from '../components/ui'
+import { DropdownMenu, EmptyState, ListCard, SectionHeader, TabBar } from '../components/ui'
 import { useToast } from '../hooks/useToast'
 import { auth, templatesApi } from '../lib/api'
+import { buildApiUrl } from '../lib/url'
 
 type Tab = 'templates' | 'api-keys' | 'fonts' | 'gallery'
 type SortOption = 'updated-desc' | 'updated-asc' | 'name-asc' | 'name-desc'
@@ -135,9 +136,20 @@ export function Dashboard() {
     navigate('/login')
   }
 
-  async function handleCopyUrl(id: string) {
-    await navigator.clipboard.writeText(`${window.location.origin}/og/${id}`)
+  async function handleCopyUrl(id: string, variables: OGVariable[]) {
+    await navigator.clipboard.writeText(buildApiUrl(id, variables))
     toast('API URL copied to clipboard', 'info')
+  }
+
+  async function handleDuplicate(id: string, name: string) {
+    try {
+      const copy = await templatesApi.duplicate(id)
+      setTemplates(prev => [copy, ...prev])
+      toast(`Duplicated as "${copy.name}"`, 'success')
+    }
+    catch (err) {
+      toast(err instanceof Error ? err.message : `Failed to duplicate "${name}"`, 'error')
+    }
   }
 
   function toggleSelect(id: string) {
@@ -401,16 +413,7 @@ export function Dashboard() {
                               </div>
                             )}
                           </div>
-                          <div style={{ display: 'flex', gap: 8, marginLeft: 16 }}>
-                            <button
-                              className="btn-secondary"
-                              onClick={() => handleCopyUrl(template.id)}
-                              data-testid={`copy-url-${template.id}`}
-                              style={{ fontSize: 13, display: 'flex', alignItems: 'center', gap: 5 }}
-                            >
-                              <Copy size={13} />
-                              Copy URL
-                            </button>
+                          <div style={{ display: 'flex', gap: 8, marginLeft: 16, alignItems: 'center' }}>
                             <button
                               className="btn-secondary"
                               onClick={() => navigate(`/templates/${template.id}`)}
@@ -420,15 +423,40 @@ export function Dashboard() {
                               <Pencil size={13} />
                               Edit
                             </button>
-                            <button
-                              className="btn-danger"
-                              onClick={() => handleDelete(template.id, template.name)}
-                              data-testid={`delete-template-${template.id}`}
-                              style={{ fontSize: 13, display: 'flex', alignItems: 'center', gap: 5 }}
-                            >
-                              <Trash2 size={13} />
-                              Delete
-                            </button>
+                            <DropdownMenu
+                              testId={`template-actions-${template.id}`}
+                              trigger={(
+                                <button
+                                  className="btn-secondary"
+                                  style={{ fontSize: 13, display: 'flex', alignItems: 'center', padding: '5px 8px' }}
+                                  aria-label="More actions"
+                                >
+                                  <MoreHorizontal size={15} />
+                                </button>
+                              )}
+                              items={[
+                                {
+                                  label: 'Copy API URL',
+                                  icon: <Copy size={13} />,
+                                  testId: `copy-url-${template.id}`,
+                                  onClick: () => handleCopyUrl(template.id, template.variableSchema),
+                                },
+                                {
+                                  label: 'Duplicate',
+                                  icon: <Plus size={13} />,
+                                  testId: `duplicate-template-${template.id}`,
+                                  onClick: () => handleDuplicate(template.id, template.name),
+                                },
+                                { separator: true },
+                                {
+                                  label: 'Delete',
+                                  icon: <Trash2 size={13} />,
+                                  danger: true,
+                                  testId: `delete-template-${template.id}`,
+                                  onClick: () => handleDelete(template.id, template.name),
+                                },
+                              ]}
+                            />
                           </div>
                         </ListCard>
                       ))}

@@ -98,6 +98,21 @@ export const templatesApi = {
       body: JSON.stringify(input),
     }),
 
+  duplicate: async (id: string): Promise<TemplateWithFonts> => {
+    const source = await request<TemplateWithFonts>(`/templates/${id}`)
+    return request<TemplateWithFonts>('/templates', {
+      method: 'POST',
+      body: JSON.stringify({
+        name: `${source.name} (copy)`,
+        code: source.code,
+        cssConfig: source.cssConfig,
+        variableSchema: source.variableSchema,
+        tags: source.tags,
+        fontIds: source.fonts.map(f => f.id),
+      }),
+    })
+  },
+
   delete: (id: string) =>
     request<{ ok: true }>(`/templates/${id}`, { method: 'DELETE' }),
 }

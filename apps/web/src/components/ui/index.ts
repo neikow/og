@@ -1,3 +1,5 @@
+export { DropdownMenu } from './DropdownMenu'
+export type { DropdownMenuEntry, DropdownMenuItem, DropdownMenuSeparator } from './DropdownMenu'
 export { EmptyState } from './EmptyState'
 export { ListCard } from './ListCard'
 export { SectionHeader } from './SectionHeader'
