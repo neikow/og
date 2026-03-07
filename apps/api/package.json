@@ -24,7 +24,7 @@
     "arctic": "2.3.4",
     "better-sqlite3": "11.10.0",
     "dotenv": "17.3.1",
-    "drizzle-orm": "0.38.4",
+    "drizzle-orm": "0.45.1",
     "hono": "4.12.5",
     "lru-cache": "11.2.6",
     "react": "18.3.1",
