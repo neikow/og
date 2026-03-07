@@ -10,6 +10,7 @@ vi.mock('../../lib/api', () => ({
     list: vi.fn(),
     create: vi.fn(),
     delete: vi.fn(),
+    duplicate: vi.fn(),
   },
   auth: {
     logout: vi.fn(),
@@ -126,6 +127,8 @@ describe('dashboard page', () => {
     vi.mocked(templatesApi.delete).mockResolvedValue({ ok: true })
     vi.spyOn(window, 'confirm').mockReturnValue(true)
     renderDashboard()
+    await waitFor(() => screen.getByTestId('template-actions-tpl-1'))
+    fireEvent.click(screen.getByTestId('template-actions-tpl-1'))
     await waitFor(() => screen.getByTestId('delete-template-tpl-1'))
     fireEvent.click(screen.getByTestId('delete-template-tpl-1'))
     await waitFor(() => expect(templatesApi.delete).toHaveBeenCalledWith('tpl-1'))
@@ -144,6 +147,8 @@ describe('dashboard page', () => {
   it('copies OG URL to clipboard when Copy URL is clicked', async () => {
     vi.mocked(templatesApi.list).mockResolvedValue([mockTemplate])
     renderDashboard()
+    await waitFor(() => screen.getByTestId('template-actions-tpl-1'))
+    fireEvent.click(screen.getByTestId('template-actions-tpl-1'))
     await waitFor(() => screen.getByTestId('copy-url-tpl-1'))
     fireEvent.click(screen.getByTestId('copy-url-tpl-1'))
     await waitFor(() =>
@@ -151,6 +156,19 @@ describe('dashboard page', () => {
         expect.stringContaining('/og/tpl-1'),
       ),
     )
+  })
+
+  it('duplicates a template', async () => {
+    const duplicate = { ...mockTemplate, id: 'tpl-2', name: 'My Template (copy)' }
+    vi.mocked(templatesApi.list).mockResolvedValue([mockTemplate])
+    vi.mocked(templatesApi.duplicate).mockResolvedValue(duplicate)
+    renderDashboard()
+    await waitFor(() => screen.getByTestId('template-actions-tpl-1'))
+    fireEvent.click(screen.getByTestId('template-actions-tpl-1'))
+    await waitFor(() => screen.getByTestId('duplicate-template-tpl-1'))
+    fireEvent.click(screen.getByTestId('duplicate-template-tpl-1'))
+    await waitFor(() => expect(templatesApi.duplicate).toHaveBeenCalledWith('tpl-1'))
+    await waitFor(() => expect(screen.getByTestId('template-item-tpl-2')).toBeInTheDocument())
   })
 
   it('switches to Gallery tab', async () => {

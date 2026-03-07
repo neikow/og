@@ -274,104 +274,109 @@ export function Editor() {
           gap: 12,
           padding: '0 16px',
           height: 48,
+          justifyContent: 'space-between',
           borderBottom: '1px solid var(--border)',
           background: 'var(--bg-secondary)',
           flexShrink: 0,
           position: 'relative',
         }}
       >
-        <button
-          className="btn-secondary"
-          onClick={() => navigate('/dashboard')}
-          style={{ fontSize: 13, padding: '4px 10px', display: 'flex', alignItems: 'center', gap: 5 }}
-          data-testid="back-btn"
-        >
-          <ArrowLeft size={14} />
-          Back
-        </button>
-        {renamingName !== null
-          ? (
-              <input
-                data-testid="rename-input"
-                value={renamingName}
-                onChange={e => setRenamingName(e.target.value)}
-                onBlur={handleRenameCommit}
-                onKeyDown={async (e) => {
-                  if (e.key === 'Enter')
-                    await handleRenameCommit()
-                  if (e.key === 'Escape') {
-                    setRenamingName(null)
-                  }
-                }}
-                style={{
-                  fontWeight: 600,
-                  background: 'var(--bg-tertiary)',
-                  border: '1px solid var(--accent)',
-                  borderRadius: 'var(--radius)',
-                  padding: '2px 6px',
-                  fontSize: 14,
-                  color: 'var(--text)',
-                }}
-                autoFocus
-              />
-            )
-          : (
-              <span
-                data-testid="template-name"
-                style={{ fontWeight: 600, cursor: 'pointer', flexShrink: 0 }}
-                title="Click to rename"
-                onClick={() => setRenamingName(template.name)}
-              >
-                {template.name}
-              </span>
-            )}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
+          <button
+            className="btn-secondary"
+            onClick={() => navigate('/dashboard')}
+            style={{ fontSize: 13, padding: '4px 10px', display: 'flex', alignItems: 'center', gap: 5 }}
+            data-testid="back-btn"
+          >
+            <ArrowLeft size={14} />
+            Back
+          </button>
+          {renamingName !== null
+            ? (
+                <input
+                  data-testid="rename-input"
+                  value={renamingName}
+                  onChange={e => setRenamingName(e.target.value)}
+                  onBlur={handleRenameCommit}
+                  onKeyDown={async (e) => {
+                    if (e.key === 'Enter')
+                      await handleRenameCommit()
+                    if (e.key === 'Escape') {
+                      setRenamingName(null)
+                    }
+                  }}
+                  style={{
+                    fontWeight: 600,
+                    background: 'var(--bg-tertiary)',
+                    border: '1px solid var(--accent)',
+                    borderRadius: 'var(--radius)',
+                    padding: '2px 6px',
+                    fontSize: 14,
+                    color: 'var(--text)',
+                  }}
+                  autoFocus
+                />
+              )
+            : (
+                <span
+                  data-testid="template-name"
+                  style={{ fontWeight: 600, cursor: 'pointer', flexShrink: 0 }}
+                  title="Click to rename"
+                  onClick={() => setRenamingName(template.name)}
+                >
+                  {template.name}
+                </span>
+              )}
 
-        {/* Tag chips */}
-        <div style={{ flex: 1, minWidth: 0, maxWidth: 400 }}>
-          <TagInput
-            tags={tags}
-            onChange={setTags}
-            placeholder="+ tag"
-            inline
-          />
+          {/* Tag chips */}
+          <div style={{ flex: 1, minWidth: 0, maxWidth: 400 }}>
+            <TagInput
+              tags={tags}
+              onChange={setTags}
+              placeholder="+ tag"
+              inline
+            />
+          </div>
         </div>
 
-        <button
-          className="btn-secondary"
-          onClick={handleCopyUrl}
-          style={{ fontSize: 13, padding: '4px 10px', display: 'flex', alignItems: 'center', gap: 5 }}
-          data-testid="copy-url-btn"
-        >
-          <Copy size={13} />
-          Copy API URL
-        </button>
-        <button
-          className="btn-secondary"
-          onClick={() => setSettingsOpen(v => !v)}
-          style={{ fontSize: 13, padding: '4px 10px', display: 'flex', alignItems: 'center', gap: 5 }}
-          data-testid="editor-settings-btn"
-          aria-label="Editor settings"
-        >
-          <Settings size={13} />
-          Settings
-        </button>
-        {settingsOpen && (
-          <EditorSettingsPanel
-            settings={settings}
-            onUpdate={updateSetting}
-            onClose={() => setSettingsOpen(false)}
-          />
-        )}
-        <button
-          className="btn-primary"
-          onClick={() => handleSave()}
-          disabled={saving}
-          data-testid="save-btn"
-          style={{ display: 'flex', alignItems: 'center', gap: 5 }}
-        >
-          <Save size={13} />
-          {saving ? 'Saving…' : 'Save'}
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <button
+            className="btn-secondary"
+            onClick={handleCopyUrl}
+            style={{ fontSize: 13, padding: '4px 10px', display: 'flex', alignItems: 'center', gap: 5 }}
+            data-testid="copy-url-btn"
+          >
+            <Copy size={13} />
+            Copy API URL
+          </button>
+          <button
+            className="btn-secondary"
+            onClick={() => setSettingsOpen(v => !v)}
+            style={{ fontSize: 13, padding: '4px 10px', display: 'flex', alignItems: 'center', gap: 5 }}
+            data-testid="editor-settings-btn"
+            aria-label="Editor settings"
+          >
+            <Settings size={13} />
+            Settings
+          </button>
+          {settingsOpen && (
+            <EditorSettingsPanel
+              settings={settings}
+              onUpdate={updateSetting}
+              onClose={() => setSettingsOpen(false)}
+            />
+          )}
+          <button
+            className="btn-primary"
+            onClick={() => handleSave()}
+            disabled={saving}
+            data-testid="save-btn"
+            style={{ display: 'flex', alignItems: 'center', gap: 5 }}
+          >
+            <Save size={13} />
+            {saving ? 'Saving…' : 'Save'}
+          </button>
+        </div>
       </div>
 
       {/* Main split: editor | preview */}
